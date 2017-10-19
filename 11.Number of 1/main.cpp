@@ -32,13 +32,14 @@ int number_of_1(int n)
 		return number_of_pos(n);
 }
 
-/*2、n&(n-1)可求得1中的个数，*/
+/*2、n&(n-1)可求得1中的个数，n|(n-1)可得0的个数*/
 public class Solution {
     public int NumberOf1(int n) {
         int count = 0;
         while(n!= 0){
             count++;
             n = n & (n - 1);
+	    //n = n | (n + 1);//求0的个数
          }
         return count;
     }
