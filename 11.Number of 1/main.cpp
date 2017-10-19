@@ -39,7 +39,6 @@ public class Solution {
         while(n!= 0){
             count++;
             n = n & (n - 1);
-	    //n = n | (n + 1);//求0的个数
          }
         return count;
     }
@@ -59,4 +58,16 @@ int NumberOf1(int n)
         flag = flag<<1;
     }
     return count;    
+}
+
+/*4、 求二进制数中0的个数*/
+int numberOf0(int n)
+{
+	int count=0;
+	while(n+1)
+	{
+		count++;
+		n = n|(n+1);
+	}
+	return count;
 }
