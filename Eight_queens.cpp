@@ -33,7 +33,7 @@ bool place(int chess[][SIZE], int row, int col)
 	return true;
 }
 
-void eight_quene(int chess[][SIZE], int row)
+void eight_queen(int chess[][SIZE], int row)
 {
 	if (row >= SIZE)
 	{	
@@ -67,7 +67,7 @@ int main()
 
 	int row = 0;
 
-	eight_quene(chess, row);
+	eight_queen(chess, row);
 
 	cout << "Total answer's number is " << count1 << endl;
 	system("pause");
