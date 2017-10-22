@@ -1,0 +1,71 @@
+#include <iostream>
+
+using namespace std;
+
+#define X 8
+#define Y 8
+
+int chess[8][8];
+int jump[8][2] = { { -2, -1 }, { -1, -2 }, { 1, -2 }, { 2, -1 }, { 1, 2 }, { 2, 1 }, { 2, -1 }, { 1, -2 } };
+
+void print_chess()
+{
+	for (int i = 0; i < X;i++)
+	{
+		for (int j = 0; j < Y; j++)
+		{
+			cout << chess[i][j] << " ";
+		}
+		cout << endl;
+	}
+}
+
+int canJump(int x, int y)
+{
+	if (x >= 0 && x < 8 && y >= 0 && y < 8)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+void DFS(int x, int y, int flag)
+{
+	if (flag == X*Y)
+	{
+		print_chess();
+	}
+	else
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			if (canJump(x+jump[i][0], y+jump[i][1]))
+			{
+				x += jump[i][0];
+				y += jump[i][1];
+				chess[x][y] = flag + 1;
+				DFS(x, y, flag + 1);
+				chess[x][y] = 0;
+				x -= jump[i][0];
+				y -= jump[i][1];
+			}
+		}
+		
+
+	}
+}
+
+int main()
+{
+	for (int i = 0; i < X;i++)
+	{
+		for (int j = 0; j < Y; j++)
+		{
+			chess[i][j] = 0;
+		}
+	}
+
+	DFS(2,0,1);
+	
+	return 0;
+}
