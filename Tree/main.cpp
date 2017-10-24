@@ -160,21 +160,31 @@ void midOrderTravel(BiTree T)
 	}
 }
 
+void posOrderTravel(BiTree T)
+{
+	if (T)
+	{
+		midOrderTravel(T->lchild);
+		midOrderTravel(T->rchild);
+		cout << "key: " << T->data << "  ";
+	}
+}
+
 void visit(BiTree T)
 {
-	cout <<"key: " <<T->data << "  ";
+	cout << "key: " << T->data << "  ";
 }
 //借助一个栈，每次访问一个结点之后，在左子树遍历下去之前利用栈记录该节点的右孩子结点地址
 //以便在左子树回退时可以直接从栈订取得右子树的根节点，继续右子树的前序遍历
 void perOrderTravel_iteration(BiTree T, stack<BiTree> s)
 {
-	while (T!=NULL)
+	while (T != NULL)
 	{
 		visit(T);
 		if (T->rchild != NULL)
 			s.push(T->rchild);
 		if (T->lchild != NULL)
-		{	
+		{
 			T = T->lchild;
 		}
 		else
@@ -208,42 +218,61 @@ void midOrderTravel_iteration(BiTree T, stack<BiTree> s)
 		}
 	} while (T != NULL || !s.empty());
 }
-
+enum Tag { L, R };
 struct stkNode
 {
 	BiTree p;
-	enum tag {L,R};
+	Tag tag;
 };
 
 void posOrderTravel_interation(BiTree T)
 {
 	stack<stkNode> s;
 	stkNode w;
-	do 
+	BiTree root = T;
+	do
 	{
-		while ( T != NULL)
+		while (root != NULL)
 		{
-			w.p = T;
+			w.p = root;
 			w.tag = L;
 			s.push(w);
-			T = T->lchild;
+			root = root->lchild;
 		}
-	} while ();
+		w = s.top();
+		s.pop();
+		if (w.tag == R)
+		{	
+			visit(w.p);
+			root = NULL;
+		}
+		else
+		{
+			w.tag = R;
+			s.push(w);
+			root = w.p;
+			root = root->rchild;
+		}
+
+	} while (root!=NULL || !s.empty());
 }
 
 int main()
 {
-	int a[10] = { 4, 6, 9, 3, 2, 10, 5, 8, 7,1 };
+	int a[10] = { 4, 6, 9, 3, 2, 10, 5, 8, 7, 1 };
 	BiTree T;
-	createBT(T,a);
+	createBT(T, a);
 
 	cout << "递归遍历" << endl;
 
 	cout << "先序遍历：" << endl;
 	preOrderTravel(T);
-
+	cout << endl;
 	cout << "中序遍历：" << endl;
 	midOrderTravel(T);
+	cout << endl;
+	cout << "后序遍历：" << endl;
+	posOrderTravel(T);
 	cout << endl;
 
 	int key;
@@ -254,15 +283,18 @@ int main()
 	else
 		cout << "NOT FOUND!" << endl;
 	cout << endl;
-	
+
 
 	deleteBT(T, 9);
-	cout << "删除结点9后";
+	cout << "删除结点9后" << endl;
 	cout << "前序遍历：" << endl;
 	preOrderTravel(T);
 	cout << endl;
 	cout << "中序遍历：" << endl;
 	midOrderTravel(T);
+	cout << endl;
+	cout << "后序遍历：" << endl;
+	posOrderTravel(T);
 	cout << endl << endl;
 
 	cout << "非递归遍历：" << endl;
@@ -272,6 +304,9 @@ int main()
 	cout << endl;
 	cout << "中序遍历：" << endl;
 	midOrderTravel_iteration(T, s1);
+	cout << endl;
+	cout << "后序遍历：" << endl;
+	posOrderTravel_interation(T);
 
 	return 0;
 }
