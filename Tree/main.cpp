@@ -92,32 +92,32 @@ void delete_T(BiNode* &p)
 	else
 	{
 		/* 直接前驱的左子树接到前驱的前驱的右子树 */
-		//q = p;
-		//s = p->lchild;
-		//while (s->rchild)
-		//{
-		//	q = s;
-		//	s = s->rchild;
-		//}
-		//p->data = s->data;
-		//if (q != p)
-		//	q->rchild = s->lchild;
-		//else
-		//	q->lchild = s->lchild;
-
-		/* 直接后继的右子树接到后继的前驱的左子树*/
 		q = p;
-		s = p->rchild;
-		while (s->lchild)
+		s = p->lchild;
+		while (s->rchild)
 		{
 			q = s;
-			s = s->lchild;
+			s = s->rchild;
 		}
 		p->data = s->data;
 		if (q != p)
-			q->lchild = s->rchild;
+			q->rchild = s->lchild;
 		else
-			q->rchild = s->rchild;
+			q->lchild = s->lchild;
+
+		///* 直接后继的右子树接到后继的前驱的左子树*/
+		//q = p;
+		//s = p->rchild;
+		//while (s->lchild)
+		//{
+		//	q = s;
+		//	s = s->lchild;
+		//}
+		//p->data = s->data;
+		//if (q != p)
+		//	q->lchild = s->rchild;
+		//else
+		//	q->rchild = s->rchild;
 
 		delete s;
 	}
@@ -164,8 +164,8 @@ void posOrderTravel(BiTree T)
 {
 	if (T)
 	{
-		midOrderTravel(T->lchild);
-		midOrderTravel(T->rchild);
+		posOrderTravel(T->lchild);
+		posOrderTravel(T->rchild);
 		cout << "key: " << T->data << "  ";
 	}
 }
@@ -224,7 +224,9 @@ struct stkNode
 	BiTree p;
 	Tag tag;
 };
-
+//给每个节点附加一个标记(left,right)。如果该节点的左子树已被访问过则置标记为left；
+//若右子树被访问过，则置标记为right。显然，只有当节点的标记位是right时，才可访问该节点；
+//否则，必须先进入它的右子树
 void posOrderTravel_interation(BiTree T)
 {
 	stack<stkNode> s;
@@ -283,8 +285,7 @@ int main()
 	else
 		cout << "NOT FOUND!" << endl;
 	cout << endl;
-
-
+	
 	deleteBT(T, 9);
 	cout << "删除结点9后" << endl;
 	cout << "前序遍历：" << endl;
