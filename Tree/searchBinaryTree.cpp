@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stack>
+#include <queue>
 
 using namespace std;
 
@@ -144,7 +145,7 @@ void preOrderTravel(BiTree T)
 {
 	if (T)
 	{
-		cout << "key: " << T->data << "  ";
+		cout << "key: " << T->data << " ";
 		preOrderTravel(T->lchild);
 		preOrderTravel(T->rchild);
 	}
@@ -155,7 +156,7 @@ void midOrderTravel(BiTree T)
 	if (T)
 	{
 		midOrderTravel(T->lchild);
-		cout << "key: " << T->data << "  ";
+		cout << "key: " << T->data << " ";
 		midOrderTravel(T->rchild);
 	}
 }
@@ -166,13 +167,13 @@ void posOrderTravel(BiTree T)
 	{
 		posOrderTravel(T->lchild);
 		posOrderTravel(T->rchild);
-		cout << "key: " << T->data << "  ";
+		cout << "key: " << T->data << " ";
 	}
 }
 
 void visit(BiTree T)
 {
-	cout << "key: " << T->data << "  ";
+	cout << "key: " << T->data << " ";
 }
 //借助一个栈，每次访问一个结点之后，在左子树遍历下去之前利用栈记录该节点的右孩子结点地址
 //以便在左子树回退时可以直接从栈订取得右子树的根节点，继续右子树的前序遍历
@@ -244,7 +245,7 @@ void posOrderTravel_interation(BiTree T)
 		w = s.top();
 		s.pop();
 		if (w.tag == R)
-		{	
+		{
 			visit(w.p);
 			root = NULL;
 		}
@@ -256,7 +257,44 @@ void posOrderTravel_interation(BiTree T)
 			root = root->rchild;
 		}
 
-	} while (root!=NULL || !s.empty());
+	} while (root != NULL || !s.empty());
+}
+
+void levelOrderTravel(BiTree T)
+{
+	queue<BiTree> q;
+	BiTree p = T;
+	q.push(p);
+	while (!q.empty())
+	{
+		p = q.front();
+		q.pop();
+		visit(p);
+		if (p->lchild != NULL)
+			q.push(p->lchild);
+		if (p->rchild != NULL)
+			q.push(p->rchild);
+	}
+}
+
+int sizeOfBiTree(BiTree T)
+{
+	if (T == NULL)
+		return 0;
+	else
+		return 1 + sizeOfBiTree(T->lchild) + sizeOfBiTree(T->rchild);
+}
+
+int HeightOfBiTree(BiTree T)
+{
+	if (T == NULL)
+		return 0;
+	else
+	{
+		int i = HeightOfBiTree(T->lchild);
+		int j = HeightOfBiTree(T->rchild);
+		return (i < j) ? j + 1 : i + 1;
+	}
 }
 
 int main()
@@ -277,6 +315,12 @@ int main()
 	posOrderTravel(T);
 	cout << endl;
 
+	int size = sizeOfBiTree(T);
+	cout << "二叉树的结点数为：" << size << endl;
+
+	int height = HeightOfBiTree(T);
+	cout << "二叉树的高度为：" << height << endl;
+
 	int key;
 	key = 5;
 	cout << "寻找结点5结果： ";
@@ -285,7 +329,7 @@ int main()
 	else
 		cout << "NOT FOUND!" << endl;
 	cout << endl;
-	
+
 	deleteBT(T, 9);
 	cout << "删除结点9后" << endl;
 	cout << "前序遍历：" << endl;
@@ -296,6 +340,9 @@ int main()
 	cout << endl;
 	cout << "后序遍历：" << endl;
 	posOrderTravel(T);
+	cout << endl;
+	cout << "层次遍历：" << endl;
+	levelOrderTravel(T);
 	cout << endl << endl;
 
 	cout << "非递归遍历：" << endl;
@@ -308,6 +355,8 @@ int main()
 	cout << endl;
 	cout << "后序遍历：" << endl;
 	posOrderTravel_interation(T);
+	cout << endl;
 
+	system("pause");
 	return 0;
 }
