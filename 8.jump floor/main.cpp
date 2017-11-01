@@ -20,6 +20,16 @@ int jumpFloor(int n)
 			y = z;
 		}
 		return z;
+		//int x = 1, y = 2, z = 4;
+		//int res;
+		//for(int i=4; i <= n; i++)
+		//{
+		//	res = x+y+z;
+		//	x = y;
+		//	y = z;
+		//	z = res;
+		//}
+		//return res;
 	}
 }
 
