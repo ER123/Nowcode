@@ -44,7 +44,7 @@ int createBT(TreeNode* &T, int a[])
 
 	return true;
 }
-
+/*
 void convertTO(TreeNode *pNode, TreeNode **pLastNode)
 {
 	if (pNode == NULL)
@@ -71,6 +71,35 @@ TreeNode* Convert(TreeNode* pRootOfTree)
 
 	TreeNode *pHead = pLast;
 	while (pHead != NULL && pHead->left != NULL)
+		pHead = pHead->left;
+
+	return pHead;
+}*/
+void convertTO(TreeNode *pNode, TreeNode *&pPre)
+{
+	if (pNode == NULL)
+		return;
+	
+	convertTO(pNode->left, pPre);
+	
+	pNode->left = pPre;
+	if (pPre)
+		pPre->right = pNode;
+	pPre = pNode;
+
+	convertTO(pNode->right, pPre);
+}
+
+TreeNode* Convert(TreeNode* pRootOfTree)
+{
+	if (pRootOfTree == NULL)
+		return NULL;
+
+	TreeNode *pPre = NULL;
+	convertTO(pRootOfTree, pPre);
+
+	TreeNode *pHead = pPre;
+	while (pHead->left)
 		pHead = pHead->left;
 
 	return pHead;
