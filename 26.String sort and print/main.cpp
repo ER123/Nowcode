@@ -69,5 +69,14 @@ int main()
 	cin >> str;
 	vector<string> res = Permutation(str);
 
+	vector<string> res1;
+	char *s = (char *)str.c_str();
+	int len = strlen(s);
+	sort(s, s + len);
+	do 
+	{
+		res1.push_back(s);
+	} while (next_permutation(s,s+len));//利用next_permutation全排列函数进行全排列，直接输出
+	
 	return 0;
 }
