@@ -3,7 +3,7 @@
 #include <vector>
 
 using namespace std;
-struct greater
+struct cmp
 {
 	bool operator()(const int &a, const int &b)
 	{
@@ -14,7 +14,7 @@ struct greater
 vector<int> GetLeastNumbers_Solution(vector<int> input, int k) 
 {
 	vector<int> res;
-	multiset<int, greater> miset;
+	multiset<int, cmp> miset;
 	if (input.empty())
 	{
 		return res;
@@ -44,6 +44,20 @@ vector<int> GetLeastNumbers_Solution(vector<int> input, int k)
 	for (; iter_set!= miset.end();iter_set++)
 	{
 		res.push_back(*iter_set);
+	}
+	return res;
+}
+
+vector<int> GetLeastNumbers_Solution1(vector<int> input, int k)
+{
+	vector<int> res;
+	if (input.size()<=0 || input.size() < k)
+		return res;
+	sort(input.begin(), input.end());
+
+	for (int i = 0; i < k;i++)
+	{
+		res.push_back(input[i]);
 	}
 	return res;
 }
