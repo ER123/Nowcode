@@ -13,6 +13,8 @@ int FindGreatestSumOfSubArray(vector<int> array)
 	int i = 0;
 	while (i<array.size())
 	{
+		//temp = temp < 0 ? array[i] : temp + array[i];
+		//res = temp > res ? temp : res;
 		temp += array[i];
 		if (temp < 0)
 		{
