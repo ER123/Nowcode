@@ -45,6 +45,37 @@ void editDistance(int len1, int len2)
 		}
 	}
 }
+int LCSres[100][100] = { 0 };
+
+void LCS(int len1, int len2)
+{
+	for (int i = 0; i <= len2; i++)
+	{
+		LCSres[0][i] = 0;
+	}
+	for (int j = 0; j <= len1; j++)
+	{
+		LCSres[j][0] = 0;
+	}
+	for (int i = 1; i <= len1; i++)
+	{
+		for (int j = 1; j <= len2; j++)
+		{
+			if (s1[i - 1] == s2[j - 1])
+			{
+				LCSres[i][j] = LCSres[i - 1][j - 1] + 1;
+			}
+			else if (LCSres[i - 1][j] >= LCSres[i][j - 1])
+			{
+				LCSres[i][j] = LCSres[i - 1][j];
+			}
+			else
+			{
+				LCSres[i][j] = LCSres[i][j - 1];
+			}
+		}
+	}
+}
 
 int main()
 {
@@ -53,6 +84,9 @@ int main()
 	int len2 = s2.length();
 	editDistance(len1, len2);
 	cout << Distance[len1][len2] << endl;
+	
+	LCS(len1, len2);
+	cout << LCSres[len1][len2] << endl;
 
 	return 0;
 }
