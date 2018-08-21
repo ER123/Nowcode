@@ -8,7 +8,7 @@ string s2;
 int Distance[100][100] = { 0 };
 
 int findMin(int a1, int a2, int a3)
-{
+{//比较三个数中的最小数
 	if (a1 < a2)
 	{
 		if (a1 < a3)
@@ -36,24 +36,25 @@ void editDistance(int len1, int len2)
 	{
 		for (int j = 1; j <= len2; j++)
 		{
-			if (s1[i-1] == s2[j-1])//当前字符相等时
+			if (s1[i-1] == s2[j-1])//当前字符相等时，上一个长度加1
 				Distance[i][j] = Distance[i - 1][j - 1];
-			else                   //当前字符不等时
+			else                   //当前字符不等时，三个方向上最小的加1
 			{
 				Distance[i][j] = 1 + findMin(Distance[i - 1][j - 1], Distance[i - 1][j], Distance[i][j - 1]);
 			}
 		}
 	}
 }
-int LCSres[100][100] = { 0 };
 
+//最长公共子序列
+int LCSres[100][100] = { 0 };
 void LCS(int len1, int len2)
 {
-	for (int i = 0; i <= len2; i++)
+	for (int i = 0; i <= len2; i++)//一个字符串为空时，子序列长度为0
 	{
 		LCSres[0][i] = 0;
 	}
-	for (int j = 0; j <= len1; j++)
+	for (int j = 0; j <= len1; j++)//一个字符串为空时，子序列长度为0
 	{
 		LCSres[j][0] = 0;
 	}
@@ -61,11 +62,11 @@ void LCS(int len1, int len2)
 	{
 		for (int j = 1; j <= len2; j++)
 		{
-			if (s1[i - 1] == s2[j - 1])
+			if (s1[i - 1] == s2[j - 1])//当前字符串相等时，子序列长度加1
 			{
 				LCSres[i][j] = LCSres[i - 1][j - 1] + 1;
 			}
-			else if (LCSres[i - 1][j] >= LCSres[i][j - 1])
+			else if (LCSres[i - 1][j] >= LCSres[i][j - 1])//否则选择较长的作为子序列长度
 			{
 				LCSres[i][j] = LCSres[i - 1][j];
 			}
