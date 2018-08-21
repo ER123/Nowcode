@@ -78,13 +78,31 @@ def upstair(n):
 	#print(h[n], n)#, minx)
 	return h[n]
 
-def LCS(len1, len2):
-	if len1 == 0 or len2 == 0:
-		return 0
-	res = 
+#最长公共子序列
+import numpy as np 
+def LCS(len1, len2):	
 	len1 = len(str1)
 	len2 = len(str2)
-	for i in range(min())
+	if len1 == 0 or len2 == 0:
+		return 0
+	#res = [[-1]*(len1+1)]*(len2+1)#浅拷贝
+	res = [[0 for i in range(len1+1)] for i in range(len2+1)]
+	path = [[" " for i in range(len1)] for i in range(len2)]
+	for i in range(len1+1):
+		res[0][i] = 0
+	for j in range(len2+1):
+		res[j][0] = 0
+	for i in range(1, len2+1):
+		for j in range(1, len1+1):
+			if str2[i-1] == str1[j-1]:
+				res[i][j] = res[i-1][j-1] + 1
+				path[i-1][j-1] = "rd"
+			elif res[i-1][j] >= res[i][j-1]:
+				res[i][j] = res[i-1][j]
+				path[i-1][j-1] = "d"
+			else:
+				res[i][j] = res[i][j-1]
+				path[i-1][j-1] = "r"
 
 
 if __name__ == '__main__':
