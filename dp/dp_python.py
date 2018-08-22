@@ -127,6 +127,65 @@ def findPath(path, i, j, word, str1):
 			findPath(path, i-1, j, word, str1)
 		else:
 			findPath(path, i, j-1, word, str1)
+#求最长递增子序列
+def LIS(s):
+	len_s = len(s)
+	if len_s == 0:
+		print(len_s)
+	else:	
+		lis = [1]*len_s
+		len_max = 1
+		for i in range(1,len_s):
+			for j in range(1, i):
+				if s[i] > s[j] and lis[i] < lis[j]+1:
+					lis[i] = lis[j]+1
+					if len_max < lis[i]:
+						len_max = lis[i]
+	print(len_max)
+	print(lis)
+	res = []
+	for i in range(len_s):
+		if lis[len_s-i-1] == len_max and len_max >= 2:
+			res.append(s[len_s-i-1])
+			print(s[len_s-i-1])
+			len_max -= 1
+	flag = 0
+	for j in range(len_s-i+1):
+		if flag ==1:
+			res.pop()
+		if s[j] < res[-1]:
+			flag = 1
+			res.append(s[j])
+			print(res)
+
+#求最大连续子序列和
+def maxSum(s):
+	len_s = len(s)
+	maxsoft = -999999
+	maxendingHere = 0
+	for i in range(len_s):
+		maxendingHere = maxendingHere+s[i] if maxendingHere+s[i] > s[i] else s[i]
+		maxsoft = maxendingHere if maxendingHere > maxsoft else maxsoft
+	print(maxsoft)
+	return maxsoft
+import math
+#求最大连续子序列积
+def maxMulti(s):
+	len_s = len(s)
+	s_log = []
+	maxCur = 1.0
+	minCur = 1.0
+	maxTemp = 1.0
+	minTemp = 1.0
+	res = 1.0
+	for i in range(len_s):
+		maxTemp = max(maxCur*s[i], max(minCur*s[i], s[i]))
+		minTemp = min(minCur*s[i], min(minCur*s[i], s[i]))
+		minCur = minTemp
+		maxCur = maxTemp
+		res = max(res, maxCur)
+	print(res)
+
 
 if __name__ == '__main__':
 	#print(findTheLongsetLine(18))
