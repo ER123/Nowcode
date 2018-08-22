@@ -96,14 +96,37 @@ def LCS(len1, len2):
 		for j in range(1, len1+1):
 			if str2[i-1] == str1[j-1]:
 				res[i][j] = res[i-1][j-1] + 1
-				path[i-1][j-1] = "rd"
+				path[i-1][j-1] = "lu"
 			elif res[i-1][j] >= res[i][j-1]:
 				res[i][j] = res[i-1][j]
-				path[i-1][j-1] = "d"
+				path[i-1][j-1] = "u"
 			else:
 				res[i][j] = res[i][j-1]
-				path[i-1][j-1] = "r"
+				path[i-1][j-1] = "l"
+	for i in range(len2+1):
+		print(res[i])
+	print(res[len2][len1])
+	for i in range(len2):
+		print(path[i])
+	word = ""
+	print(str1, str2)
+	findPath(path, len2-1, len1-1, word, str1)#回溯寻找最长公共子序列
+def findPath(path, i, j, word, str1):
+	print("i:%d, j:%d"%(i,j))
+	if i == 0 or j == 0:
+		if path[i][j] == "lu":
+			word+=str1[i]
+		print(word)
+		return ""
 
+	if i>0 and j >0:
+		if path[i][j] == 'lu':
+			word += str1[j]
+			findPath(path, i-1, j-1, word,str1)
+		elif path[i][j] == 'u':
+			findPath(path, i-1, j, word, str1)
+		else:
+			findPath(path, i, j-1, word, str1)
 
 if __name__ == '__main__':
 	#print(findTheLongsetLine(18))
