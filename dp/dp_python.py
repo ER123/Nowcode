@@ -26,7 +26,7 @@ def findTheLongsetLine(n):
 		print("h[%d]:%d"%(i,h[i]))	
 		print(h)
 	return h[n]
-
+#2.找硬币
 def findCoin(n):
 	#首先处理边界情况
 	if n == 0:
@@ -56,7 +56,7 @@ def findCoin(n):
 				minx = num
 
 	return minx
-
+#上台阶
 def upstair(n):
 	if n <= 0:
 		return 0
@@ -186,8 +186,62 @@ def maxMulti(s):
 		res = max(res, maxCur)
 	print(res)
 
+#矩阵连乘
+def MatrixChain():
+	p = [30,35,15,5,10,20,25]
+	len_p = len(p)
+	m = [[0 for i in range(len_p)] for i in range(len_p)]
+	s = [[0 for i in range(len_p)] for i in range(len_p)]
+	for r in range(2,len_p):#r为矩阵相乘的个数
+		for i in range(len_p-r):#矩阵相乘的第一个
+			j = r+i-1#矩阵相乘的最后一个
+			m[i][j] = 9999999
+			for k in range(i, j):#在第一个和最后一个之间寻找合适的相乘顺序
+				temp = m[i][k] + m[k+1][j] + p[i]*p[k+1]*p[j+1]
+				if temp<m[i][j]:
+					m[i][j] = temp
+					s[i][j] = k
+	print(m[0][len_p-2])
+	print(m)
+	print(s)
+	printMat(0,len_p-1,s,p)
+
+def printMat(i, j, s, p):
+	if i == j:
+		print(p[i])
+		return " "
+	else:
+		printMat(i, s[i][j], s,p)
+		printMat(s[i][j] + 1, j, s,p)
+		
+#01背包问题
+def bag01():
+	v = [0,20, 2, 40, 4, 23, 2, 10]
+	w = [0,10, 2, 59, 3, 30, 20, 4]
+	len_v = len(v)
+	total = 50
+	m = [[0 for i in range(total+1)] for i in range(len_v)]
+	for i in range(1,len_v):
+		for j in range(1,total+1):
+			if j>=w[i]:
+				m[i][j] = max(m[i-1][j], m[i-1][j-w[i]]+v[i])
+			else: 
+				m[i][j] = m[i-1][j]
+	print(m)
+	print(m[len_v-1][total])
+
 
 if __name__ == '__main__':
 	#print(findTheLongsetLine(18))
 	#print(findCoin(15))
-	print(upstair(4))
+	#print(upstair(4))
+	#str1 = "ababababacd"
+	#str2 = "abcbababababacd"
+	#LCS(str1, str2)
+	#s = [1,-2,3,-4,5,-6,7,8,-1,8]
+	#LIS(s)
+	#maxSum(s)
+	#s = [1,0.1,5,-0.2,0.5,1,-7,0.8,10,-8]
+	#maxMulti(s)
+	#MatrixChain()
+	bag01()
