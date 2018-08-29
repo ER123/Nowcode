@@ -129,34 +129,40 @@ def findPath(path, i, j, word, str1):
 			findPath(path, i, j-1, word, str1)
 #求最长递增子序列
 def LIS(s):
+	#s = list(map(int, input().split(" ")))
 	len_s = len(s)
 	if len_s == 0:
 		print(len_s)
 	else:	
-		lis = [1]*len_s
+		lis = [1]*(len_s)
 		len_max = 1
 		for i in range(1,len_s):
-			for j in range(1, i):
+			for j in range( i):
 				if s[i] > s[j] and lis[i] < lis[j]+1:
 					lis[i] = lis[j]+1
 					if len_max < lis[i]:
 						len_max = lis[i]
-	print(len_max)
-	print(lis)
+	print("len_max:", len_max)
+	print("lis:",lis)
+	'''
 	res = []
 	for i in range(len_s):
 		if lis[len_s-i-1] == len_max and len_max >= 2:
 			res.append(s[len_s-i-1])
-			print(s[len_s-i-1])
+			#print(s[len_s-i-1])
 			len_max -= 1
 	flag = 0
-	for j in range(len_s-i+1):
-		if flag ==1:
+	print(len_max,len_s,i)
+	for j in range(len_s-i, -1, -1):
+		if flag == 1:
 			res.pop()
 		if s[j] < res[-1]:
 			flag = 1
 			res.append(s[j])
 			print(res)
+	res.reverse()
+	print(res)
+	'''
 
 #求最大连续子序列和
 def maxSum(s):
