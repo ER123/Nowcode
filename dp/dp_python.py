@@ -163,7 +163,27 @@ def LIS(s):
 	res.reverse()
 	print(res)
 	'''
-
+#升序子序列中和最大值
+def LIS1():
+	s = list(map(int, input().split(" ")))
+	len_s = len(s)
+	if len_s == 0:
+		print(len_s)
+	else:	
+		lis = [0]*(len_s)
+		lis[0] = s[0]
+		len_max = s[0]
+		for i in range(1,len_s):
+			lis[i] = s[i]
+			for j in range(i):
+				if s[i] > s[j] and lis[i] < lis[j]+s[i]:
+					lis[i] = lis[j]+s[i]
+					if len_max < lis[i]:
+						len_max = lis[i]
+				print(lis)
+	print("len_max:", len_max)
+	print("lis:",lis)
+	
 #求最大连续子序列和
 def maxSum(s):
 	len_s = len(s)
